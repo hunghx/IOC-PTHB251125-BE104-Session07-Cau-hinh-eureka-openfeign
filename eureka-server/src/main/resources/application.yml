@@ -1,0 +1,13 @@
+
+spring:
+    application:
+        name: eureka-server
+eureka:
+  client:
+    register-with-eureka: false   # Eureka Server không tự đăng ký với chính nó
+    fetch-registry: false         # Không cần lấy thông tin registry từ server khác
+  server:
+    enable-self-preservation: false   # Tắt chế độ tự bảo vệ (chỉ nên dùng trong dev/test)
+
+server:
+  port: 8761

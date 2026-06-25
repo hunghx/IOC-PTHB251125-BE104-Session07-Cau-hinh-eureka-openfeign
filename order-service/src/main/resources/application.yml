@@ -1,0 +1,23 @@
+server:
+  port: 8082   # Cổng chạy service client
+
+spring:
+  application:
+    name: order-service   # Tên service sẽ hiển thị trên Eureka
+  datasource:
+    url: jdbc:postgresql://localhost:5432/order_db   # URL kết nối PostgreSQL
+    username: postgres                             # Username PostgreSQL
+    password: 123456$                         # Password PostgreSQL
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   # Tùy chọn: create, update, validate, none
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/   # Địa chỉ Eureka Server
+    register-with-eureka: true   # Client sẽ đăng ký với Eureka
+    fetch-registry: true         # Client sẽ lấy danh sách service từ Eureka

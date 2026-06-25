@@ -1,0 +1,13 @@
+package ra.edu.orderservice.service;
+
+import ra.edu.orderservice.model.Order;
+import ra.edu.orderservice.model.OrderDetail;
+
+import java.util.List;
+
+public interface IOrderService {
+    List<Order> findAll();
+    OrderDetail findById(Long id);
+    Order save(Order order);
+    void deleteById(Long id);
+}
