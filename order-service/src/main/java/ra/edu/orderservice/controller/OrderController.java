@@ -23,8 +23,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetail> getOrderById(@PathVariable Long id) {
-        OrderDetail order = orderService.findById(id);
+    public ResponseEntity<OrderDetail> getOrderById(@RequestParam(value = "isError", defaultValue = "false") boolean isError,@PathVariable Long id) {
+        OrderDetail order = orderService.findById(isError,id);
         if (order == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

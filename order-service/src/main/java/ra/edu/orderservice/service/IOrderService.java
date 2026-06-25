@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IOrderService {
     List<Order> findAll();
-    OrderDetail findById(Long id);
+    OrderDetail findById(boolean isError,Long id);
     Order save(Order order);
     void deleteById(Long id);
 }

@@ -21,3 +21,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka/   # Địa chỉ Eureka Server
     register-with-eureka: true   # Client sẽ đăng ký với Eureka
     fetch-registry: true         # Client sẽ lấy danh sách service từ Eureka
+# câu hình resilience4j
+resilience4j:
+  circuitbreaker: # CLOSED , OPEN, HALF_OPEN
+    instances:
+      serviceA:
+        sliding-window-size: 10 # theo dõi 10 cuộc gọi lần nhất để đánh giá có nên mở mạch hay ko
+        sliding-window-type: count_based # số lần gọi
+        failure-rate-threshold: 50 # % số lần gọi thất bại thì sẽ tự mở mach
+        wait-duration-in-open-state: 15s # trong thời gian mở mạch chỉ luôn luôn gọi hàm fallback
+        permitted-number-of-calls-in-half-open-state: 3

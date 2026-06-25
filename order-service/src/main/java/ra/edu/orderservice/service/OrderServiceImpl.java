@@ -1,5 +1,6 @@
 package ra.edu.orderservice.service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ra.edu.orderservice.client.ProductClient;
@@ -25,7 +26,11 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public OrderDetail findById(Long id) {
+    @CircuitBreaker(name = "serviceA", fallbackMethod = "fallbackFindById")
+    public OrderDetail findById(boolean isError,Long id) {
+        if (isError) {
+            throw new RuntimeException("Simulated error");
+        }
         Order o = orderRepository.findById(id).orElse(null);
         // lấy thông tin chi tiết thì phải gọi APi sang product service
         if (o!=null){
@@ -40,9 +45,15 @@ public class OrderServiceImpl implements IOrderService {
             od.setProductUnitPrice(p.getPrice());
             od.setQuantity(o.getQuantity());
             od.setProductDescription(p.getDescription());
+            System.out.println("Load product detail for order: " + o.getId() + "successfully");
             return od;
         }
         return null;
+    }
+    public OrderDetail fallbackFindById(Long id, Throwable throwable){
+        throwable.printStackTrace();
+        System.out.println("Fallback method called for findById with id: " + id);
+        return new OrderDetail();
     }
 
     @Override
