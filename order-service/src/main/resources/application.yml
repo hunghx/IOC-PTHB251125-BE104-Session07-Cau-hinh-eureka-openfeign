@@ -31,3 +31,21 @@ resilience4j:
         failure-rate-threshold: 50 # % số lần gọi thất bại thì sẽ tự mở mach
         wait-duration-in-open-state: 15s # trong thời gian mở mạch chỉ luôn luôn gọi hàm fallback
         permitted-number-of-calls-in-half-open-state: 3
+  retry:
+    instances:
+      retryService:
+        max-attempts: 3 # số lần thử lại khi lỗi (tính cả lần lỗi đầu tiên)
+        wait-duration: 3s # khoang nghỉ giữa các lần thử lại
+        retry-exceptions:
+          - java.lang.RuntimeException
+  ratelimiter:
+    instances:
+      rateLimiterService:
+        limit-for-period: 5 # số lần gọi tối đa trong 1 khoảng thời gian
+        limit-refresh-period: 10s # khoảng thời gian giới hạn số lần gọi
+        timeout-duration: 0s # thời gian chờ khi vượt quá giới hạn
+  bulkhead:
+    instances:
+      timeOutService:
+        max-concurrent-calls: 5 # số lượng cuộc gọi đồng thời tối đa
+        max-wait-duration: 2s

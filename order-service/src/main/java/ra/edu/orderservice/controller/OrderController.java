@@ -8,6 +8,7 @@ import ra.edu.orderservice.model.Order;
 import ra.edu.orderservice.model.OrderDetail;
 import ra.edu.orderservice.service.IOrderService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -46,5 +47,10 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/test")
+    public ResponseEntity<String> test(@RequestParam(value = "isError", defaultValue = "false") boolean isError) throws IOException {
+        orderService.test(isError);
+        return new ResponseEntity<>("Order service is running", HttpStatus.OK);
     }
 }
